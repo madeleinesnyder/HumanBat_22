@@ -1,0 +1,23 @@
+# Mulitple Mixed Regression
+
+library("lme4")
+library("raveio")
+
+dat <- read_mat("GLM/datasets/training/220407_14650_dataset2_allFlights_MMR_.mat")
+colnames(dat$table1) <- c("n","B","BO","K","M","C","Pre","Dur","Post","ID")
+
+dat_frame <- data.frame(dat$table1)
+rm(dat)
+gc()
+
+dat_frame$Pre <- as.factor(dat_frame$Pre)
+dat_frame$Dur <- as.factor(dat_frame$Dur)
+dat_frame$Post <- as.factor(dat_frame$Post)
+
+# Formula1:
+m_mmr <- lmer(n ~ 1 + (1|ID) + (1 | B) + (1 | BO) + (1|K) + (1|M) + (1|C) + (1|Pre) + (1 | Dur) + (1|Post), dat_frame)
+
+m_mmr_summary <- summary(m_mmr)
+write.table(m_mmr_summary$coefficients, "GLM/datasets/results/220407/m_mmr",sep="\t")
+anova_results <- anova(m_mmr, test="Chisq")
+write.table(anova_results$Pr, "GLM/datasets/results/220407/m_mmr_anova",sep="\t")

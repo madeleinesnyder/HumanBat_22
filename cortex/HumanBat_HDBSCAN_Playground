@@ -1,0 +1,16 @@
+clusterer = HDBSCAN(X);
+clusterer.run_hdbscan( 2,3,[],0.85 )
+% (1) 2 - min number of  neghts
+% (2) 3 - min cluyster size
+% (3) 1 min # clusters
+% ... more arguments 
+colors = {'r' 'g' 'b', 'y', 'c', 'm', 'k'}
+figure;
+tiledlayout(6,7)
+
+for i = 1:34
+    if(clusterer.score(i)>0)
+        nexttile;
+        plot(all_flights(1,:,i),all_flights(2,:,i), 'Color', colors{clusterer.labels(i)+1});
+    end
+end

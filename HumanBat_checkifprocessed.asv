@@ -1,0 +1,30 @@
+function [processed_status] = HumanBat_checkifprocessed(batdate,batid)
+
+% Function to check what parts of a dataset are processed
+exp_data_path = strcat('/home/madeleine/mnt/server2/users/KQMS/HumanBat/',num2str(batid),'/processed/',num2str(batdate),'/');
+
+% Cortex status
+cortex_files = dir(fullfile(exp_data_path,'cortex/*.mat'));
+for i=1:length(cortex_files)
+    disp(cortex_files(i).name)
+end
+if exist(strcat(exp_data_path,'cortex/cortex_final_flight_structure.mat'))
+    disp("Cortex Fully Processed per July 2022 pipeline stage");
+end
+
+% Ciholas status
+ciholas_files = dir(fullfile(exp_data_path,'ciholas/*.mat'));
+for i=1:length(cortex_files)
+    disp(cortex_files(i).name)
+end
+if exist(strcat(exp_data_path,'cortex/cortex_final_flight_structure.mat'))
+    disp("Cortex Fully Processed per July 2022 pipeline stage");
+end
+
+% Ephys status
+for i=[13,15]
+    processed_status.ephys(i).kilosort = 1;
+    processed_status.ephys(i).spikesort3d = 1;
+end
+
+end
